@@ -51,11 +51,6 @@ code{font-family:var(--mono);font-size:.88em;background:var(--plate);padding:.08
 .top nav{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap}
 .top nav a{color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:6px;font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:.06em}
 .top nav a:hover{color:var(--chalk);background:var(--plate)}
-.snd{display:inline-flex;align-items:center;gap:8px;background:var(--plate);color:var(--chalk);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font:600 13px var(--body);cursor:pointer}
-.snd{min-height:44px}
-.snd .dot{width:9px;height:9px;border-radius:50%;background:var(--muted)}
-.snd[aria-pressed=true]{border-color:var(--volt-edge)}
-.snd[aria-pressed=true] .dot{background:var(--volt);box-shadow:0 0 10px var(--volt),0 0 0 1px var(--volt-edge)}
 
 /* theme switch: three icon-only radios (light, dark, auto) */
 .theme-switch{position:relative;display:inline-flex;padding:2px;border:1px solid var(--line);border-radius:999px;background:var(--plate);flex:none}
@@ -300,7 +295,6 @@ footer p{margin:6px 0}
 @media (max-width:760px){
   .hero{grid-template-columns:1fr}
   .top nav{display:none}
-  .snd{margin-left:auto}
   .top{gap:8px}
   .strip,.lanes{grid-template-columns:1fr}
   .arrow{transform:rotate(90deg);justify-self:center}
@@ -313,10 +307,6 @@ footer p{margin:6px 0}
   .phone{--w:min(318px,86vw)}
   .wrap,section.wrap{padding:52px 16px}
 }
-@media (max-width:480px){
-  .snd{padding:6px 12px}
-  .snd .lbl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *,*::before,*::after{animation:none!important;transition:none!important}
@@ -326,3 +316,33 @@ footer p{margin:6px 0}
   .flip[aria-pressed=true] .back{display:flex}
   .flip[aria-pressed=true] .front{display:none}
 }
+html[data-motion="off"] .flip .inner{transform-style:flat}
+html[data-motion="off"] .flip[aria-pressed=true] .inner{transform:none}
+html[data-motion="off"] .flip .back{display:none;transform:none}
+html[data-motion="off"] .flip[aria-pressed=true] .back{display:flex}
+html[data-motion="off"] .flip[aria-pressed=true] .front{display:none}
+
+/* global symbol controls (Sound, Motion, Effects, Quiet) docked with the theme switch */
+/* Symbol controls: Sound, Motion, Effects, Quiet everything, docked with the theme switch. */
+.ctl { position: fixed; right: 12px; bottom: 12px; z-index: 60; display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 6px; max-width: calc(100vw - 24px); }
+.ctl .ico { display: inline-grid; place-items: center; width: 44px; height: 44px; padding: 0; border-radius: 50%; border: 1px solid var(--c-line); background: var(--c-bg); color: var(--c-muted); cursor: pointer; box-shadow: var(--c-shadow); transition: transform .15s, background-color .2s, color .2s, border-color .2s; }
+.ctl .ico .i { width: 24px; height: 24px; }
+.ctl .ico:hover { color: var(--c-ink); border-color: var(--c-accent); }
+.ctl .ico:active { transform: scale(.94); }
+.ctl .ico:focus-visible { outline: 3px solid var(--c-focus); outline-offset: 2px; }
+.ctl .ico[aria-pressed="true"] { color: var(--c-ink); background: color-mix(in srgb, var(--c-accent) 28%, var(--c-bg)); border-color: var(--c-accent); }
+.ctl .ico .off-only { display: none; }
+.ctl .ico[aria-pressed="false"] .on-only { display: none; }
+.ctl .ico[aria-pressed="false"] .off-only { display: inline; }
+#ctl-quiet .on-only, #ctl-quiet .off-only { display: inline; }
+.ctl-glow { position: fixed; left: 0; top: 0; width: 520px; height: 520px; margin: -260px 0 0 -260px; border-radius: 50%; background: radial-gradient(circle, var(--c-glow) 0, transparent 65%); pointer-events: none; z-index: 55; opacity: 0; transition: opacity .3s; will-change: transform; }
+.ctl-particles { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: -1; }
+html[data-fx="off"] .ctl-glow, html[data-fx="off"] .ctl-particles { display: none; }
+.ctl-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+/* Motion off (or the system asks for reduced motion): nothing animates or transitions. */
+html[data-motion="off"], html[data-motion="off"] *, html[data-motion="off"] *::before, html[data-motion="off"] *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+@media (max-width: 420px) { .ctl { right: 8px; bottom: 8px; gap: 4px; max-width: calc(100vw - 16px); } }
+@media print { .ctl, .ctl-glow, .ctl-particles { display: none; } }
+:root{--c-bg:var(--plate);--c-ink:var(--chalk);--c-line:var(--line);--c-muted:var(--muted);--c-accent:var(--volt-edge);--c-focus:var(--focus);--c-shadow:0 6px 18px rgba(0,0,0,.28);--c-glow:color-mix(in srgb,var(--volt) 22%,transparent)}
+.ctl .theme-switch{box-shadow:var(--c-shadow)}
+body{padding-bottom:64px}

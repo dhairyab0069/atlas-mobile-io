@@ -25,9 +25,13 @@ Friends and leaderboard scores are the apps' placeholder data, as in the apps. T
 
 ## Sound
 
-The Sound switch in the top bar is off by default and remembered in `localStorage`. When on, taps, plates clanking on a personal
+Sound is on by default (see Controls and defaults below). Taps, plates clanking on a personal
 best, a check-in bell and the spec runner are synthesized with the Web Audio API. There are no audio files and nothing plays while
 the tab is hidden.
+
+## Controls and defaults
+
+Four symbol buttons sit bottom right, beside the light/dark/auto switch: Sound (speaker), Motion (flowing waves), Effects (sparkle) and Quiet everything (circle with a bar). Sound, Motion and Effects all start on; Motion starts off only when the system asks for reduced motion. Browsers only allow audio after a gesture, so sound starts at the first click, key press or touch. Pressing Quiet everything turns all three off, and pressing it again restores exactly what was on before. Choices are saved under `atlas2-sound`, `atlas2-motion` and `atlas2-fx` in `localStorage` (the page works with storage blocked). Effects: a volt-green light that follows the pointer, the phone leaning toward it, and slow rising chalk sparks. Motion off stops every animation, transition and loop (`html[data-motion="off"]`). The page makes no external requests. Design notes are in [DESIGN.md](DESIGN.md).
 
 ## Motion and accessibility
 
@@ -68,5 +72,7 @@ regenerate `assets/fixtures.js` (the script-tag friendly copy). `python3 tests/i
 | `assets/logic.js` | JavaScript port of the AtlasCore rules |
 | `assets/spec.js` | fixture runner shared by the page and the tests |
 | `assets/sound.js` | Web Audio effects |
+| `assets/controls.js` | the four symbol controls and the pointer and particle effects |
+| `DESIGN.md` | design write-up |
 | `assets/theme.js` | light / dark / auto switch, shared across the owner's sites |
 | `assets/fixtures.json`, `fixtures.js` | the shared spec, and its generated script copy |

@@ -1,11 +1,8 @@
-/* Synthesized sound effects (Web Audio), off by default. No audio files. */
+/* Synthesized sound effects (Web Audio), on by default and gated by the Sound symbol (controls.js, Ctl.state.sound). No audio files. */
 (function (root) {
   'use strict';
-  var KEY = 'atlas-io-sound';
-  var ctx = null, on = false;
-
-  function load() { try { return localStorage.getItem(KEY) === '1'; } catch (e) { return false; } }
-  function save(v) { try { localStorage.setItem(KEY, v ? '1' : '0'); } catch (e) { /* storage blocked */ } }
+  var ctx = null;
+  function on() { return !!(root.Ctl && root.Ctl.state.sound); }
 
   function ac() {
     if (!ctx) {
@@ -42,13 +39,17 @@
   };
 
   var api = {
-    get on() { return on; },
-    set: function (v) { on = !!v; save(on); if (on) { ac(); sounds.tap(); } },
+    get on() { return on(); },
     play: function (name) {
-      if (!on || root.document.hidden) return;
+      if (!on() || root.document.hidden) return;
       try { if (sounds[name]) sounds[name](); } catch (e) { /* audio unavailable */ }
-    },
-    init: function () { on = load(); return on; }
+    }
   };
   root.AtlasSound = api;
+  /* browsers only start audio after a gesture: the first pointer, key or touch wakes it */
+  root.addEventListener('ctlunlock', function () { if (on()) ac(); });
+  root.addEventListener('ctlchange', function (e) {
+    var k = e.detail.key;
+    if ((k === 'sound' || k === 'quiet') && on()) { ac(); sounds.tap(); }
+  });
 })(typeof window !== 'undefined' ? window : this);

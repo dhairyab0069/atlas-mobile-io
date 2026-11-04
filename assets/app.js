@@ -5,7 +5,8 @@
   var L = window.AtlasLogic, S = window.AtlasSpec, FX = window.ATLAS_FIXTURES, snd = window.AtlasSound;
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
-  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var mq = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+  function reduced() { return document.documentElement.getAttribute('data-motion') === 'off' || !!(mq && mq.matches); }
   var esc = function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
   var gymName = function (id) { return L.GYMS.filter(function (g) { return g.id === id; })[0].name; };
   var exName = function (id) { return L.EXERCISES.filter(function (e) { return e.id === id; })[0].name; };
@@ -290,12 +291,6 @@
   $('#seed').addEventListener('click', seed);
   $('#reset').addEventListener('click', function () { state = fresh(); $('#phone').setAttribute('data-os', state.os); render(); });
 
-  /* ---------- sound switch ---------- */
-  var sndBtn = $('#sound');
-  function paintSound() { sndBtn.setAttribute('aria-pressed', String(snd.on)); $('.lbl', sndBtn).textContent = snd.on ? 'Sound on' : 'Sound off'; }
-  sndBtn.addEventListener('click', function () { snd.set(!snd.on); paintSound(); });
-  snd.init(); paintSound();
-
   /* ---------- spec runner ---------- */
   var bugOn = false, runToken = 0;
   var GROUP = { sampleData: 'Sample data', leaderboard: 'Leaderboard', calorieSummary: 'Calorie summary', checkIns: 'Check-ins' };
@@ -316,7 +311,7 @@
       var okSoFar = res.slice(0, i).filter(function (r) { return r.ok; }).length;
       score.textContent = 'Running: ' + okSoFar + ' of ' + i + ' pass';
       snd.play(res[i - 1].ok ? 'pass' : 'fail');
-      if (i < res.length) setTimeout(step, reduced || !animate ? 0 : 140);
+      if (i < res.length) setTimeout(step, reduced() || !animate ? 0 : 140);
       else {
         var fails = res.length - okSoFar;
         score.textContent = fails ? fails + ' of ' + res.length + ' fail: the shared spec catches it' : 'All ' + res.length + ' pass';
