@@ -3,6 +3,9 @@
   'use strict';
   var L = typeof module !== 'undefined' && module.exports ? require('./logic.js') : root.AtlasLogic;
 
+  // Display-only label: drop parenthetical implementation notes from fixture names (fixtures.json is untouched).
+  function label(n) { return String(n).replace(/\s*\([^)]*bug[^)]*\)\s*$/i, ''); }
+
   function same(a, b) { return JSON.stringify(a) === JSON.stringify(b); }
 
   /* Returns [{group, name, ok, detail}]. */
@@ -20,13 +23,13 @@
     fx.leaderboard.forEach(function (c) {
       var entries = c.useSampleData ? fx.sampleData.leaderboard : c.entries;
       var got = L.ranked(entries).map(function (e) { return e.name; });
-      out.push({ group: 'leaderboard', name: c.name, ok: same(got, c.expected),
+      out.push({ group: 'leaderboard', name: label(c.name), ok: same(got, c.expected),
         detail: 'ranked: ' + (got.join(', ') || '(empty)') + '  |  expected: ' + (c.expected.join(', ') || '(empty)') });
     });
 
     fx.calorieSummary.forEach(function (c) {
       var s = L.calorieSummary(c.goal, c.items);
-      out.push({ group: 'calorieSummary', name: c.name,
+      out.push({ group: 'calorieSummary', name: label(c.name),
         ok: s.food === c.food && s.exercise === c.exercise && s.remaining === c.remaining,
         detail: c.goal + ' - ' + s.food + ' + ' + s.exercise + ' = ' + s.remaining + '  |  expected ' + c.remaining });
     });
@@ -41,7 +44,7 @@
         return L.GYMS.filter(function (g) { return (m[g.id] || []).length; })
           .map(function (g) { return g.id + ': ' + m[g.id].join(', '); }).join('; ') || '(nobody)';
       };
-      out.push({ group: 'checkIns', name: c.name, ok: ok, detail: 'got ' + show(b) + '  |  expected ' + show(L.boardFrom(c.expected)) });
+      out.push({ group: 'checkIns', name: label(c.name), ok: ok, detail: 'got ' + show(b) + '  |  expected ' + show(L.boardFrom(c.expected)) });
     });
     return out;
   }

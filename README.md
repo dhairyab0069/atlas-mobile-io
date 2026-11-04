@@ -18,7 +18,7 @@ It is a static site: HTML, CSS and vanilla JavaScript, no build step, no librari
   port of the AtlasCore rules. The Swift and Kotlin suites themselves run in the app repo's CI, not here. 
 - **Build and run** commands, copied from the app repo's README.
 
-Friends and leaderboard scores are the apps' placeholder data, as in the apps. There are no releases yet, so only the repo is linked.
+Friends and leaderboard scores are the apps' placeholder data, as in the apps.
 
 ## Sound
 
