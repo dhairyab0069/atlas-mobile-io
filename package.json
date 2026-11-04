@@ -1,0 +1,1 @@
+{ "name": "atlas-mobile-io", "private": true, "scripts": { "test": "node tests/logic.test.js && node tests/page.test.js" } }

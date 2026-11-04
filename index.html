@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atlas: a gym tracker, native on iPhone and Android</title>
+<meta name="description" content="Atlas is a gym progress tracker rewritten as a native SwiftUI iOS app and a Kotlin Jetpack Compose Android app that share one behaviour spec. Try the journal, calorie diary and check-in board in the page, then run the shared spec.">
+<meta name="theme-color" content="#0c0e11">
+<link rel="canonical" href="https://dhairyab0069.github.io/atlas-mobile-io/">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Atlas: one spec, two native gym apps">
+<meta property="og:description" content="A gym tracker in SwiftUI and Kotlin Compose, held to the same fixtures.json. Try it in the page.">
+<meta property="og:url" content="https://dhairyab0069.github.io/atlas-mobile-io/">
+<meta property="og:image" content="https://dhairyab0069.github.io/atlas-mobile-io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="The word ATLAS beside a barbell and two phone outlines, one iOS and one Android">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="assets/atlas.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <a class="brand" href="#top" aria-label="Atlas, top of page">
+    <svg viewBox="0 0 48 24" width="38" height="19" aria-hidden="true"><rect x="0" y="9" width="48" height="6" rx="2" fill="currentColor"/><rect x="5" y="2" width="5" height="20" rx="2" fill="var(--volt)"/><rect x="38" y="2" width="5" height="20" rx="2" fill="var(--volt)"/><rect x="11" y="5" width="3" height="14" rx="1.5" fill="currentColor"/><rect x="34" y="5" width="3" height="14" rx="1.5" fill="currentColor"/></svg>
+    <span>ATLAS</span>
+  </a>
+  <nav aria-label="Sections">
+    <a href="#try">Try it</a><a href="#spec">One spec</a><a href="#then">Then and now</a><a href="#build">Build</a>
+  </nav>
+  <button type="button" class="snd" id="sound" aria-pressed="false"><span class="dot" aria-hidden="true"></span><span class="lbl">Sound off</span></button>
+</header>
+
+<main id="main">
+<section class="hero" id="top">
+  <div class="hero-copy">
+    <p class="kicker">Gym tracker &middot; iOS and Android</p>
+    <h1><span>Log the lift.</span> <span>Count the calories.</span> <span class="volt">See who's at the gym.</span></h1>
+    <p class="lede">Atlas started as a Java Android app for a UBC Okanagan HCI course. It is now two native apps, <strong>SwiftUI</strong> on iOS and <strong>Kotlin with Jetpack Compose</strong> on Android, with the logic held to one shared spec. The phone on this page is a working sketch of both: switch platform, tap around, log a lift.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://github.com/dhairyab0069/Atlas-Mobile">View on GitHub</a>
+      <a class="btn" href="#spec">Run the shared spec</a>
+    </div>
+    <dl class="facts">
+      <div><dt>iOS</dt><dd>SwiftUI, iOS 18+</dd></div>
+      <div><dt>Android</dt><dd>Compose, minSdk 26</dd></div>
+      <div><dt>Shared</dt><dd><code>spec/fixtures.json</code></dd></div>
+    </dl>
+  </div>
+
+  <div class="stage" id="try">
+    <div class="stage-bar">
+      <div class="seg" role="radiogroup" aria-label="Platform">
+        <button type="button" role="radio" aria-checked="true" data-os="ios">iOS</button>
+        <button type="button" role="radio" aria-checked="false" data-os="android">Android</button>
+      </div>
+      <button type="button" class="chip" id="seed">Fill with demo data</button>
+      <button type="button" class="chip ghost" id="reset">Reset</button>
+    </div>
+    <div class="phone" id="phone" data-os="ios">
+      <div class="notch" aria-hidden="true"></div>
+      <div class="screen" id="screen" aria-live="polite"></div>
+      <div class="homebar" aria-hidden="true"></div>
+    </div>
+    <p class="note">A sketch drawn in HTML and CSS from the apps' screens, not a screenshot. Everything runs in your browser and nothing is saved. Friends and leaderboard scores are the apps' placeholder data, as in the apps.</p>
+  </div>
+
+  <aside class="board" aria-label="Your session" id="boardPanel">
+    <h2>Session board</h2>
+    <p class="board-sub">Page extra, not an app screen. It follows what you do in the phone.</p>
+    <div id="bests" class="bests"></div>
+    <div class="tiles">
+      <div class="tile"><span class="tl">Calories left</span><b id="tileCal">0</b></div>
+      <div class="tile"><span class="tl">At the gym</span><b id="tileGym">Nowhere</b></div>
+    </div>
+  </aside>
+</section>
+
+<section class="band" id="spec">
+  <div class="wrap">
+    <p class="kicker">One spec, two native apps</p>
+    <h2>Same rules on both phones, because the same file says so.</h2>
+    <p class="sec-lede"><code>spec/fixtures.json</code> holds sample data and test cases for the leaderboard order, the calorie maths and the check-in board. The Swift tests (<code>SharedSpecTests.swift</code>) and the Kotlin tests (<code>SharedSpecTest.kt</code>) both read it. To change behaviour you add a case there first, then make both suites pass.</p>
+
+    <figure class="lanes" aria-label="Diagram: fixtures.json is read by the Swift tests and the Kotlin tests">
+      <div class="lane lane-swift"><span class="lane-t">Swift</span><code>ios/AtlasCore</code><span class="lane-s">SharedSpecTests.swift<br>swift test</span></div>
+      <div class="spine"><span class="file">spec/fixtures.json</span><span class="beam" aria-hidden="true"></span></div>
+      <div class="lane lane-kotlin"><span class="lane-t">Kotlin</span><code>android/core</code><span class="lane-s">SharedSpecTest.kt<br>./gradlew :core:test</span></div>
+    </figure>
+
+    <div class="runner" id="runner">
+      <div class="runner-bar">
+        <button type="button" class="btn primary" id="runSpec">Run the spec here</button>
+        <button type="button" class="switch" id="bug" role="switch" aria-checked="false"><span class="knob" aria-hidden="true"></span>Bring back the Java check-out bug</button>
+        <p class="score" id="score" role="status" aria-live="polite">Not run yet</p>
+      </div>
+      <p class="runner-note">This page runs the same <code>fixtures.json</code> against a small JavaScript port of the rules (<code>assets/logic.js</code>). The real Swift and Kotlin suites run in CI, not here. The bug switch swaps in a model of the old Java check-out, which trimmed a shared string by a fixed number of characters; it is a model, not the Java code.</p>
+      <ol class="cases" id="cases"></ol>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="then">
+  <p class="kicker">Atlas, then and now</p>
+  <h2>From one Android app to two native ones.</h2>
+  <div class="strip">
+    <article class="era then">
+      <p class="when">Nov 2022</p>
+      <h3>Atlas, Java</h3>
+      <ul>
+        <li>COSC 341, Human Computer Interaction, UBC Okanagan</li>
+        <li>A team of five</li>
+        <li>Android only, 13 Java classes: four journal and four add-entry pairs, plus home, friends, leaderboard and metrics</li>
+        <li>Saved to text files</li>
+      </ul>
+      <a href="https://github.com/dhairyab0069/Atlas">Original repo</a>
+    </article>
+    <div class="arrow" aria-hidden="true"><svg viewBox="0 0 80 24" width="80" height="24"><path d="M2 12h70m-12-9 12 9-12 9" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <article class="era now">
+      <p class="when">Oct 2026</p>
+      <h3>Atlas Mobile, native</h3>
+      <ul>
+        <li>SwiftUI app for iOS 18+, Compose app for Android (minSdk 26)</li>
+        <li>A pure logic core on each side: models, store, JSON persistence</li>
+        <li>One shared <code>fixtures.json</code> that both test suites run</li>
+        <li>Journal, diary, check-in, rankings and friends, with no backend yet</li>
+      </ul>
+      <a href="https://github.com/dhairyab0069/Atlas-Mobile">Atlas-Mobile repo</a>
+    </article>
+  </div>
+
+  <h3 class="subhead">What the rewrite fixed</h3>
+  <p class="sec-lede">From the README's list. Press a card to flip it.</p>
+  <div class="flips" id="flips"></div>
+</section>
+
+<section class="band" id="build">
+  <div class="wrap">
+    <p class="kicker">Build and run</p>
+    <h2>Two toolchains, one repo.</h2>
+    <div class="cols">
+      <div class="card">
+        <h3>iOS</h3>
+        <p>Xcode 16 or newer. The logic tests run on macOS without a simulator.</p>
+        <pre><code>cd ios/AtlasCore &amp;&amp; swift test
+open ios/Atlas.xcodeproj</code></pre>
+        <button type="button" class="chip copy" data-copy="cd ios/AtlasCore && swift test">Copy test command</button>
+      </div>
+      <div class="card">
+        <h3>Android</h3>
+        <p>JDK 17 or newer and Android SDK 35.</p>
+        <pre><code>cd android
+./gradlew :core:test
+./gradlew :app:installDebug</code></pre>
+        <button type="button" class="chip copy" data-copy="cd android && ./gradlew :core:test">Copy test command</button>
+      </div>
+      <div class="card">
+        <h3>Layout</h3>
+        <pre><code>spec/fixtures.json
+ios/
+  Atlas.xcodeproj
+  Atlas/        views
+  AtlasCore/    logic
+android/
+  core/         logic
+  app/          Compose UI</code></pre>
+      </div>
+    </div>
+    <p class="sec-lede">There are no published releases yet, so the repo is the place to get it. CI builds both apps and runs both test suites on every push.</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <p><a href="https://github.com/dhairyab0069/Atlas-Mobile">Atlas-Mobile on GitHub</a> &middot; <a href="https://github.com/dhairyab0069/atlas-mobile-io">source of this page</a> &middot; <a href="https://dhairyab0069.github.io/">dhairyab0069</a></p>
+  <p class="fine">Static page: no libraries, fonts, trackers or external requests. Sound is synthesized in your browser and off until you switch it on.</p>
+</footer>
+
+<script src="assets/fixtures.js"></script>
+<script src="assets/logic.js"></script>
+<script src="assets/spec.js"></script>
+<script src="assets/sound.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+/* Synthesized sound effects (Web Audio), off by default. No audio files. */
+(function (root) {
+  'use strict';
+  var KEY = 'atlas-io-sound';
+  var ctx = null, on = false;
+
+  function load() { try { return localStorage.getItem(KEY) === '1'; } catch (e) { return false; } }
+  function save(v) { try { localStorage.setItem(KEY, v ? '1' : '0'); } catch (e) { /* storage blocked */ } }
+
+  function ac() {
+    if (!ctx) {
+      var C = root.AudioContext || root.webkitAudioContext;
+      if (!C) return null;
+      ctx = new C();
+    }
+    if (ctx.state === 'suspended') ctx.resume();
+    return ctx;
+  }
+  function tone(freq, start, dur, type, gain, endFreq) {
+    var c = ac(); if (!c) return;
+    var t = c.currentTime + start, o = c.createOscillator(), g = c.createGain();
+    o.type = type || 'sine';
+    o.frequency.setValueAtTime(freq, t);
+    if (endFreq) o.frequency.exponentialRampToValueAtTime(endFreq, t + dur);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(gain || 0.08, t + 0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(c.destination);
+    o.start(t); o.stop(t + dur + 0.02);
+  }
+  var sounds = {
+    tap: function () { tone(520, 0, 0.05, 'triangle', 0.04); },
+    // iron plates meeting: inharmonic partials with a fast decay
+    clank: function () { [1, 2.76, 5.4].forEach(function (m, i) { tone(330 * m, 0, 0.35 / (i + 1), 'sine', 0.07 / (i + 1)); }); },
+    pb: function () { sounds.clank(); [523, 659, 784, 1047].forEach(function (f, i) { tone(f, 0.12 + i * 0.07, 0.22, 'triangle', 0.06); }); },
+    checkin: function () { tone(880, 0, 0.5, 'sine', 0.06); tone(1320, 0, 0.35, 'sine', 0.03); },
+    pass: function () { tone(660, 0, 0.09, 'square', 0.025); tone(880, 0.05, 0.12, 'square', 0.025); },
+    fail: function () { tone(160, 0, 0.28, 'sawtooth', 0.05, 90); },
+    done: function () { [392, 523, 659].forEach(function (f, i) { tone(f, i * 0.08, 0.2, 'triangle', 0.05); }); }
+  };
+
+  var api = {
+    get on() { return on; },
+    set: function (v) { on = !!v; save(on); if (on) { ac(); sounds.tap(); } },
+    play: function (name) {
+      if (!on || root.document.hidden) return;
+      try { if (sounds[name]) sounds[name](); } catch (e) { /* audio unavailable */ }
+    },
+    init: function () { on = load(); return on; }
+  };
+  root.AtlasSound = api;
+})(typeof window !== 'undefined' ? window : this);
