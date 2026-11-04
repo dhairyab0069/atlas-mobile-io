@@ -67,18 +67,6 @@
     b[gym].push(name);
     return b;
   }
-  /* The Java app kept each gym as one shared string and trimmed a fixed number of characters off
-     the end on check-out. This is a model of that mistake (one character too many), not a port of
-     the Java code: it is here so the page can show the shared spec catching it. */
-  function checkOutLikeJava(board, name) {
-    var gym = gymOf(board, name);
-    if (!gym) return boardFrom(board);
-    var b = boardFrom(board);
-    var s = b[gym].join(' ');
-    s = s.slice(0, Math.max(0, s.length - (name.length + 2)));
-    b[gym] = s.split(' ').filter(Boolean);
-    return b;
-  }
 
   /* Renaming keeps your check-in (AtlasStore.setUserName). Returns {name, board}. */
   function rename(board, current, next) {
@@ -104,7 +92,7 @@
     GYMS: GYMS, MEALS: MEALS, EXERCISES: EXERCISES,
     ranked: ranked, calorieSummary: calorieSummary,
     boardFrom: boardFrom, peopleAt: peopleAt, gymOf: gymOf,
-    checkIn: checkIn, checkOut: checkOut, checkOutLikeJava: checkOutLikeJava, rename: rename,
+    checkIn: checkIn, checkOut: checkOut, rename: rename,
     entriesFor: entriesFor, personalBest: personalBest
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;

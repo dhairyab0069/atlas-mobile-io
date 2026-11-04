@@ -9,13 +9,6 @@ t('every fixtures.json case passes', () => {
   assert.strictEqual(res.length, 1 + fx.leaderboard.length + fx.calorieSummary.length + fx.checkIns.length);
   res.forEach(r => assert.ok(r.ok, r.group + ': ' + r.name + ' | ' + r.detail));
 });
-t('the Java check-out model fails the shared spec', () => {
-  const res = S.runSpec(fx, { checkOut: L.checkOutLikeJava });
-  const failed = res.filter(r => !r.ok);
-  assert.ok(failed.length >= 1);
-  assert.ok(failed.every(r => r.group === 'checkIns'));
-  assert.ok(failed.some(r => /leaves everyone else/.test(r.name)));
-});
 t('fixtures.js is in sync with fixtures.json', () => {
   const ctx = { window: {} }; vm.createContext(ctx);
   vm.runInContext(fs.readFileSync(path.join(__dirname, '../assets/fixtures.js'), 'utf8'), ctx);

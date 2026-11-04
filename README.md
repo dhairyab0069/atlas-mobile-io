@@ -15,10 +15,7 @@ It is a static site: HTML, CSS and vanilla JavaScript, no build step, no librari
   flashes it. Nothing is saved.
 - **A session board** (a page extra, not an app screen) with bars for your best lift of each exercise.
 - **One spec, two native apps.** Runs every case in `fixtures.json` in the browser against `assets/logic.js`, a small JavaScript
-  port of the AtlasCore rules. The Swift and Kotlin suites themselves run in the app repo's CI, not here. A switch swaps in a
-  model of the old Java check-out (it trimmed a shared string by a fixed number of characters) so you can watch the spec fail.
-- **Then and now**: the Nov 2022 Java app from COSC 341 at UBC Okanagan (team of five) against the Oct 2026 native rewrite, and
-  flip cards for what the rewrite fixed.
+  port of the AtlasCore rules. The Swift and Kotlin suites themselves run in the app repo's CI, not here. 
 - **Build and run** commands, copied from the app repo's README.
 
 Friends and leaderboard scores are the apps' placeholder data, as in the apps. There are no releases yet, so only the repo is linked.
@@ -36,8 +33,7 @@ Four symbol buttons sit bottom right, beside the light/dark/auto switch: Sound (
 ## Motion and accessibility
 
 Everything is a real button, link or input with a visible focus ring; the platform switch is a radio group (arrow keys work), the
-spec cases and flip cards expose `aria-expanded` / `aria-pressed`. With `prefers-reduced-motion` the bar growth, flashes, card
-flips and runner pacing are skipped.
+spec cases expose `aria-expanded`. With `prefers-reduced-motion` the bar growth, flashes and runner pacing are skipped.
 
 ## Run and test
 
@@ -46,7 +42,7 @@ python3 -m http.server 8000     # then open http://localhost:8000/
 npm test                        # or: node tests/logic.test.js && node tests/page.test.js
 ```
 
-`tests/logic.test.js` runs the shared spec (and checks the Java-bug model fails it); `tests/page.test.js` checks metadata, files,
+`tests/logic.test.js` runs the shared spec; `tests/page.test.js` checks metadata, files,
 that nothing external is requested and that the scripts parse.
 
 ## Light, dark and auto
@@ -68,7 +64,7 @@ regenerate `assets/fixtures.js` (the script-tag friendly copy). `python3 tests/i
 |---|---|
 | `index.html` | the page |
 | `assets/atlas.css` | styles, both phone themes, reduced-motion rules |
-| `assets/app.js` | phone, session board, spec runner, flip cards |
+| `assets/app.js` | phone, session board, spec runner |
 | `assets/logic.js` | JavaScript port of the AtlasCore rules |
 | `assets/spec.js` | fixture runner shared by the page and the tests |
 | `assets/sound.js` | Web Audio effects |

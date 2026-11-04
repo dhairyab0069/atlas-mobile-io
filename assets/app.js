@@ -292,9 +292,9 @@
   $('#reset').addEventListener('click', function () { state = fresh(); $('#phone').setAttribute('data-os', state.os); render(); });
 
   /* ---------- spec runner ---------- */
-  var bugOn = false, runToken = 0;
+  var runToken = 0;
   var GROUP = { sampleData: 'Sample data', leaderboard: 'Leaderboard', calorieSummary: 'Calorie summary', checkIns: 'Check-ins' };
-  function results() { return S.runSpec(FX, bugOn ? { checkOut: L.checkOutLikeJava } : null); }
+  function results() { return S.runSpec(FX); }
   function renderCases(res, shown) {
     $('#cases').innerHTML = res.map(function (r, i) {
       var st = i < shown ? (r.ok ? 'pass' : 'fail') : 'idle';
@@ -314,7 +314,7 @@
       if (i < res.length) setTimeout(step, reduced() || !animate ? 0 : 140);
       else {
         var fails = res.length - okSoFar;
-        score.textContent = fails ? fails + ' of ' + res.length + ' fail: the shared spec catches it' : 'All ' + res.length + ' pass';
+        score.textContent = fails ? fails + ' of ' + res.length + ' fail' : 'All ' + res.length + ' pass';
         score.className = 'score ' + (fails ? 'bad' : 'good');
         if (!fails) snd.play('done');
       }
@@ -323,29 +323,11 @@
   }
   renderCases(results(), 0);
   $('#runSpec').addEventListener('click', function () { runSpec(true); });
-  $('#bug').addEventListener('click', function () {
-    bugOn = !bugOn; this.setAttribute('aria-checked', String(bugOn)); runSpec(false);
-  });
   $('#cases').addEventListener('click', function (e) {
     var b = e.target.closest('button'); if (!b) return;
     var open = b.getAttribute('aria-expanded') !== 'true';
     b.setAttribute('aria-expanded', String(open));
     document.getElementById(b.getAttribute('aria-controls')).hidden = !open;
-  });
-
-  /* ---------- then and now: flip cards ---------- */
-  var FLIPS = [
-    ['Journals skipped the first saved entry', 'An extra readLine() before the loop ate it, and an empty journal crashed.', 'Entries are a plain list, newest first; an empty journal shows an empty state.'],
-    ['Check-out mangled other people\'s names', 'It trimmed the wrong number of characters from a shared string.', 'The board is a list of names per gym, and check-out removes only that name. The shared spec covers it.'],
-    ['Eight near-identical journal screens', 'Four journal and four add-entry activities, one pair per lift.', 'One screen parameterised by exercise, on both platforms.'],
-    ['The calorie diary had no logic', 'The layout existed; nothing added up.', 'Goal minus food plus exercise equals remaining, with per-meal items.']
-  ];
-  $('#flips').innerHTML = FLIPS.map(function (f, i) {
-    return '<button type="button" class="flip" aria-pressed="false" data-i="' + i + '"><span class="inner"><span class="face front"><em>Then</em><b>' + esc(f[0]) + '</b><span>' + esc(f[1]) + '</span></span><span class="face back"><em>Now</em><b>' + esc(f[0]) + '</b><span>' + esc(f[2]) + '</span></span></span></button>';
-  }).join('');
-  $('#flips').addEventListener('click', function (e) {
-    var b = e.target.closest('.flip'); if (!b) return;
-    b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true')); snd.play('clank');
   });
 
   /* ---------- copy buttons ---------- */

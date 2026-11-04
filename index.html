@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Atlas: a gym tracker, native on iPhone and Android</title>
-<meta name="description" content="Atlas is a gym progress tracker rewritten as a native SwiftUI iOS app and a Kotlin Jetpack Compose Android app that share one behaviour spec. Try the journal, calorie diary and check-in board in the page, then run the shared spec.">
+<meta name="description" content="Atlas is a gym progress tracker built as a native SwiftUI iOS app and a Kotlin Jetpack Compose Android app that share one behaviour spec. Try the journal, calorie diary and check-in board in the page, then run the shared spec.">
 <meta name="theme-color" content="#0c0e11">
 <link rel="canonical" href="https://dhairyab0069.github.io/atlas-mobile-io/">
 <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-64.png">
@@ -39,7 +39,7 @@
     <span>ATLAS</span>
   </a>
   <nav aria-label="Sections">
-    <a href="#try">Try it</a><a href="#spec">One spec</a><a href="#then">Then and now</a><a href="#build">Build</a>
+    <a href="#try">Try it</a><a href="#spec">One spec</a><a href="#build">Build</a>
   </nav>
 </header>
 
@@ -48,7 +48,7 @@
   <div class="hero-copy">
     <p class="kicker">Gym tracker &middot; iOS and Android</p>
     <h1><span>Log the lift.</span> <span>Count the calories.</span> <span class="volt">See who's at the gym.</span></h1>
-    <p class="lede">Atlas started as a Java Android app for a UBC Okanagan HCI course. It is now two native apps, <strong>SwiftUI</strong> on iOS and <strong>Kotlin with Jetpack Compose</strong> on Android, with the logic held to one shared spec. The phone on this page is a working sketch of both: switch platform, tap around, log a lift.</p>
+    <p class="lede">Atlas is two native apps, <strong>SwiftUI</strong> on iOS and <strong>Kotlin with Jetpack Compose</strong> on Android, with the logic held to one shared spec. The phone on this page is a working sketch of both: switch platform, tap around, log a lift.</p>
     <div class="cta">
       <a class="btn primary" href="https://github.com/dhairyab0069/Atlas-Mobile">View on GitHub</a>
       <a class="btn" href="#spec">Run the shared spec</a>
@@ -103,47 +103,12 @@
     <div class="runner" id="runner">
       <div class="runner-bar">
         <button type="button" class="btn primary" id="runSpec">Run the spec here</button>
-        <button type="button" class="switch" id="bug" role="switch" aria-checked="false"><span class="knob" aria-hidden="true"></span>Bring back the Java check-out bug</button>
         <p class="score" id="score" role="status" aria-live="polite">Not run yet</p>
       </div>
-      <p class="runner-note">This page runs the same <code>fixtures.json</code> against a small JavaScript port of the rules (<code>assets/logic.js</code>). The real Swift and Kotlin suites run in CI, not here. The bug switch swaps in a model of the old Java check-out, which trimmed a shared string by a fixed number of characters; it is a model, not the Java code.</p>
+      <p class="runner-note">Runs <code>fixtures.json</code> against a JavaScript port of the rules (<code>assets/logic.js</code>). The real Swift and Kotlin suites run in the app repo.</p>
       <ol class="cases" id="cases"></ol>
     </div>
   </div>
-</section>
-
-<section class="wrap" id="then">
-  <p class="kicker">Atlas, then and now</p>
-  <h2>From one Android app to two native ones.</h2>
-  <div class="strip">
-    <article class="era then">
-      <p class="when">Nov 2022</p>
-      <h3>Atlas, Java</h3>
-      <ul>
-        <li>COSC 341, Human Computer Interaction, UBC Okanagan</li>
-        <li>A team of five</li>
-        <li>Android only, 13 Java classes: four journal and four add-entry pairs, plus home, friends, leaderboard and metrics</li>
-        <li>Saved to text files</li>
-      </ul>
-      <a href="https://github.com/dhairyab0069/Atlas">Original repo</a>
-    </article>
-    <div class="arrow" aria-hidden="true"><svg viewBox="0 0 80 24" width="80" height="24"><path d="M2 12h70m-12-9 12 9-12 9" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    <article class="era now">
-      <p class="when">Oct 2026</p>
-      <h3>Atlas Mobile, native</h3>
-      <ul>
-        <li>SwiftUI app for iOS 18+, Compose app for Android (minSdk 26)</li>
-        <li>A pure logic core on each side: models, store, JSON persistence</li>
-        <li>One shared <code>fixtures.json</code> that both test suites run</li>
-        <li>Journal, diary, check-in, rankings and friends, with no backend yet</li>
-      </ul>
-      <a href="https://github.com/dhairyab0069/Atlas-Mobile">Atlas-Mobile repo</a>
-    </article>
-  </div>
-
-  <h3 class="subhead">What the rewrite fixed</h3>
-  <p class="sec-lede">From the README's list. Press a card to flip it.</p>
-  <div class="flips" id="flips"></div>
 </section>
 
 <section class="band" id="build">
@@ -178,7 +143,7 @@ android/
   app/          Compose UI</code></pre>
       </div>
     </div>
-    <p class="sec-lede">There are no published releases yet, so the repo is the place to get it. CI builds both apps and runs both test suites on every push.</p>
+    <p class="sec-lede">There are no published releases yet, so the repo is the place to get it.</p>
   </div>
 </section>
 </main>

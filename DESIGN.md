@@ -1,9 +1,9 @@
 # Atlas-Mobile: design
 
-Written 2026-11-04 from what the page does now. Keep it current: every change gets a line in "Decisions and trade-offs".
+Describes what the page does now.
 
 ## Purpose
-Explain Atlas-Mobile (a gym tracker rewritten as SwiftUI on iOS and Jetpack Compose on Android around one shared spec) and let visitors try it: a working phone sketch in HTML and CSS, a session board that follows what they do, and a button that runs the shared spec (`fixtures.json`) against the page's own logic. Logic is in `assets/logic.js`, the spec in `assets/spec.js`, the phone and page behaviour in `assets/app.js`.
+Explain Atlas-Mobile (a gym tracker built as SwiftUI on iOS and Jetpack Compose on Android around one shared spec) and let visitors try it: a working phone sketch in HTML and CSS, a session board that follows what they do, and a button that runs the shared spec (`fixtures.json`) against the page's own logic. Logic is in `assets/logic.js`, the spec in `assets/spec.js`, the phone and page behaviour in `assets/app.js`.
 
 ## Theme choice and why
 Gym floor: near-black iron, chalk text, one electric "volt" lime accent, condensed uppercase display type and diagonal stripe texture. Light mode is a clean white gym: the volt stays as fills (bars, plates) on dark ink, and text that was volt becomes a deep lime to keep 4.5:1.
@@ -29,8 +29,8 @@ At the top of `assets/atlas.css`.
 Type is system-only: `--display` (Arial Narrow, Franklin Gothic, Impact fallback, uppercase), `--body` (system-ui), `--mono` (ui-monospace). Control tokens `--c-*` map these onto the symbol controls (plate fill, volt-edge border when on).
 
 ## Motion spec
-- Gate: `html[data-motion="on|off"]` from the Motion control; off (or the system asking for reduced motion) kills every CSS animation and transition and turns the 3D flip cards into a plain show-or-hide. JS checks the same gate (`reduced()` in `app.js`, `motionOn()` in `theme.js`).
-- What moves: toast rise and pulse, personal-best flash and glow, the marching beam in the spec diagram, check pings, progress fills, flip cards, the spec runner's stepwise reveal (140 ms per case, instant when motion is off), the theme indicator and reveal.
+- Gate: `html[data-motion="on|off"]` from the Motion control; off (or the system asking for reduced motion) kills every CSS animation and transition. JS checks the same gate (`reduced()` in `app.js`, `motionOn()` in `theme.js`).
+- What moves: toast rise and pulse, personal-best flash and glow, the marching beam in the spec diagram, check pings, progress fills, the spec runner's stepwise reveal (140 ms per case, instant when motion is off), the theme indicator and reveal.
 - Transform, opacity and background only; nothing flashes more than twice.
 
 ## Effects (the Effects control)
@@ -47,8 +47,7 @@ Type is system-only: `--display` (Arial Narrow, Franklin Gothic, Impact fallback
 |---|---|---|
 | Bottom-right dock | Light, Dark, Auto; Sound, Motion, Effects, Quiet everything | icon fill and glyph, live-region message, cue |
 | Phone | switch iOS or Android, log a lift, check in, tabs, demo data, reset | tap and clank sounds, toast, personal-best flash, session board updates |
-| Spec | Run the shared spec, toggle the Java bug, open a case | stepwise pass or fail, ping, done cue |
-| Then and now | flip cards | 3D flip (plain swap when motion is off) |
+| Spec | Run the shared spec, open a case | stepwise pass or fail, ping, done cue |
 | Pointer | move | volt glow, phone tilt, chalk sparks (Effects) |
 
 ## Accessibility notes
@@ -63,10 +62,9 @@ Type is system-only: `--display` (Arial Narrow, Franklin Gothic, Impact fallback
 | 2026-11-04 | Header Sound pill and theme switch moved into a bottom-right dock with the four symbol controls | seven buttons do not fit a 390 px header; the dock stays visible while scrolling |
 | 2026-11-04 | `AtlasSound` reads `Ctl.state.sound`; `set`, `init` and the old key `atlas-io-sound` removed | one source of truth; new keys `atlas2-sound/-motion/-fx` so an old "off" cannot carry over |
 | 2026-11-04 | Effects: glow, phone tilt, chalk sparks | the page had none; sparks suit gym chalk and the volt accent |
-| 2026-11-04 | Flip cards fall back to show-or-hide under `data-motion="off"` | same treatment as the system reduced-motion setting |
 
 ## How to extend
-- New animation: transform or opacity; the `data-motion` rule stops it (add a static fallback if state depends on it, as the flip cards do).
+- New animation: transform or opacity; the `data-motion` rule stops it (add a static fallback if state depends on it).
 - New sound: add a function to `sounds` in `assets/sound.js` and call `snd.play('name')`.
 - New effect: gate on `Ctl.state.fx` (and `.motion`) and listen for `ctlchange`; config is `window.CTL` in `index.html`.
 - Tests: `npm test`. Audit: `node ~/.claude/skills/dynamic-web-design/scripts/check_site.js .`.

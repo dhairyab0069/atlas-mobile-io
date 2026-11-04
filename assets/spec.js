@@ -5,9 +5,9 @@
 
   function same(a, b) { return JSON.stringify(a) === JSON.stringify(b); }
 
-  /* options.checkOut lets the page swap in the buggy check-out. Returns [{group, name, ok, detail}]. */
-  function runSpec(fx, options) {
-    var checkOut = (options && options.checkOut) || L.checkOut;
+  /* Returns [{group, name, ok, detail}]. */
+  function runSpec(fx) {
+    var checkOut = L.checkOut;
     var out = [];
 
     // sampleData is checked first, like SharedSpecTest.sampleDataMatchesSpec.
