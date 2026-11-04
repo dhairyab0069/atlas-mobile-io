@@ -17,6 +17,17 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="The word ATLAS beside a barbell and two phone outlines, one iOS and one Android">
 <meta name="twitter:card" content="summary_large_image">
+<script>
+// Shared theme (localStorage 'theme': light | dark | auto). Set before first paint so there is no flash.
+(function () {
+  var m;
+  try { m = localStorage.getItem('theme'); } catch (e) {}
+  if (m !== 'light' && m !== 'dark') m = 'auto';
+  var t = m === 'auto' ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : m;
+  var r = document.documentElement;
+  r.setAttribute('data-theme-mode', m); r.setAttribute('data-theme', t); r.style.colorScheme = t;
+})();
+</script>
 <link rel="stylesheet" href="assets/atlas.css">
 </head>
 <body>
@@ -31,6 +42,11 @@
     <a href="#try">Try it</a><a href="#spec">One spec</a><a href="#then">Then and now</a><a href="#build">Build</a>
   </nav>
   <button type="button" class="snd" id="sound" aria-pressed="false"><span class="dot" aria-hidden="true"></span><span class="lbl">Sound off</span></button>
+  <div class="theme-switch" role="radiogroup" aria-label="Color theme">
+  <button type="button" role="radio" aria-checked="false" data-mode="light" aria-label="Light theme" title="Light theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg></button>
+  <button type="button" role="radio" aria-checked="false" data-mode="dark" aria-label="Dark theme" title="Dark theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg></button>
+  <button type="button" role="radio" aria-checked="false" data-mode="auto" aria-label="Match system theme" title="Auto (match system)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg></button>
+  </div>
 </header>
 
 <main id="main">
@@ -182,6 +198,7 @@ android/
 <script src="assets/logic.js"></script>
 <script src="assets/spec.js"></script>
 <script src="assets/sound.js"></script>
+<script src="assets/theme.js"></script>
 <script src="assets/app.js"></script>
 </body>
 </html>

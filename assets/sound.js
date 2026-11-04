@@ -36,6 +36,8 @@
     checkin: function () { tone(880, 0, 0.5, 'sine', 0.06); tone(1320, 0, 0.35, 'sine', 0.03); },
     pass: function () { tone(660, 0, 0.09, 'square', 0.025); tone(880, 0.05, 0.12, 'square', 0.025); },
     fail: function () { tone(160, 0, 0.28, 'sawtooth', 0.05, 90); },
+    themeLight: function () { tone(660, 0, 0.18, 'sine', 0.03); tone(990, 0.07, 0.24, 'sine', 0.025); },
+    themeDark: function () { tone(660, 0, 0.18, 'sine', 0.03); tone(440, 0.07, 0.26, 'sine', 0.025); },
     done: function () { [392, 523, 659].forEach(function (f, i) { tone(f, i * 0.08, 0.2, 'triangle', 0.05); }); }
   };
 

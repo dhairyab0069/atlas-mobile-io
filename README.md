@@ -45,6 +45,14 @@ npm test                        # or: node tests/logic.test.js && node tests/pag
 `tests/logic.test.js` runs the shared spec (and checks the Java-bug model fails it); `tests/page.test.js` checks metadata, files,
 that nothing external is requested and that the scripts parse.
 
+## Light, dark and auto
+
+The page follows one shared setting across all of dhairyab0069.github.io: `localStorage.theme` is `light`, `dark` or `auto`
+(absent means auto, which follows the system). The three-way switch in the top bar changes it, and a change on any other
+page or tab applies here live. Dark is the original look; light is a white gym with volt-lime as an accent on dark ink and
+a deeper lime for text. An inline script in `<head>` applies the mode before first paint, the theme change plays a short
+reveal and a soft sound cue when sound is on, and it is instant under reduced motion. Code: `assets/theme.js`, tokens at the top of `assets/atlas.css`.
+
 ## Keeping the spec copy fresh
 
 `assets/fixtures.json` is a verbatim copy of `spec/fixtures.json` in the app repo. After updating it run `node tests/gen.js` to
@@ -60,4 +68,5 @@ regenerate `assets/fixtures.js` (the script-tag friendly copy). `python3 tests/i
 | `assets/logic.js` | JavaScript port of the AtlasCore rules |
 | `assets/spec.js` | fixture runner shared by the page and the tests |
 | `assets/sound.js` | Web Audio effects |
+| `assets/theme.js` | light / dark / auto switch, shared across the owner's sites |
 | `assets/fixtures.json`, `fixtures.js` | the shared spec, and its generated script copy |

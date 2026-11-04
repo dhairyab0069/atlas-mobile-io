@@ -42,6 +42,13 @@ t('reduced motion is respected in CSS and JS', () => {
   assert.ok(/prefers-reduced-motion/.test(fs.readFileSync(path.join(root, 'assets/app.js'), 'utf8')));
 });
 t('scripts parse', () => {
-  ['app.js', 'sound.js', 'logic.js', 'spec.js', 'fixtures.js'].forEach(f => new vm.Script(fs.readFileSync(path.join(root, 'assets', f), 'utf8')));
+  ['app.js', 'sound.js', 'theme.js', 'logic.js', 'spec.js', 'fixtures.js'].forEach(f => new vm.Script(fs.readFileSync(path.join(root, 'assets', f), 'utf8')));
+});
+t('shared light/dark/auto theme: key, early script before the stylesheet, radiogroup', () => {
+  const early = html.indexOf("localStorage.getItem('theme')");
+  assert.ok(early > 0 && early < html.indexOf('rel="stylesheet"'));
+  assert.ok(html.includes('role="radiogroup" aria-label="Color theme"'));
+  assert.strictEqual((html.match(/data-mode="(light|dark|auto)"/g) || []).length, 3);
+  assert.ok(/setItem\(KEY|localStorage\.setItem\('theme'/.test(fs.readFileSync(path.join(root, 'assets/theme.js'), 'utf8')));
 });
 console.log(n + ' checks passed');
